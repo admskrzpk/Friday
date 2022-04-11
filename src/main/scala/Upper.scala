@@ -11,7 +11,7 @@ object Upper extends App {
     .getOrCreate()
   val path = if (args.length > 0) args(0)
   else "C:\\spark\\Friday\\Sample100.csv"
-  val columnName = args(1)
+  val columnName = args.tail
 
   val sample100 = spark
     .read
@@ -19,6 +19,6 @@ object Upper extends App {
     .option("inferSchema", value = true)
     .csv(path)
 
-  val result = sample100.withColumn("upper_" + columnName, upper(col(columnName))).show()
-
-  }
+  val result = columnName.foldLeft(sample100) {(column,arg) => column.withColumn("upper_" + arg, upper(col(arg)))}.show()
+  //val result = sample100.withColumn("upper_" + columnName, upper(col(columnName))).show()
+}
