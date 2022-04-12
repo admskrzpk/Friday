@@ -19,6 +19,8 @@ object Upper extends App {
     .option("inferSchema", value = true)
     .csv(path)
 
-  val result = columnName.foldLeft(sample100) {(column,arg) => column.withColumn("upper_" + arg, upper(col(arg)))}.show()
+  val result = columnName
+    .foldLeft(sample100) { (column, arg) => column.withColumn("upper_" + arg, upper(col(arg))) }
+    .show()
   //val result = sample100.withColumn("upper_" + columnName, upper(col(columnName))).show()
 }
